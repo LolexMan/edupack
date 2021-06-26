@@ -150,21 +150,37 @@ def prob_rango(dic,est,min,max):
 	return P  
 
 def grafica_notas(dic,est):
-	pyplot.plot(range(len(dic[est])),dic[est])
-	m = np.mean(dic[est])
-	s = np.std(dic[est])
-	pyplot.axhline(m, linestyle="--", color="r")
-	pyplot.axhline(m-s, linestyle="--", color="g")
+	"""Gráfica que muestra el rendimiento del estudiante en relación al tiempo
+		input:
+			dic -> Diccionario
+			est -> Id estudiante
+		output:
+			pyplot -> gráfica"""
+	pyplot.plot(range(len(dic[est])),dic[est]) # Se identifica el rango que tendrá la gráfica
+	m = np.mean(dic[est]) 
+	s = np.std(dic[est]) 
+	pyplot.axhline(m, linestyle="--", color="r") # Linea que permitirá observar el promedio del estudiante
+	pyplot.axhline(m-s, linestyle="--", color="g") 
 	pyplot.axhline(m+s, linestyle="--", color="g")
 	pyplot.show()
 
 def aprueba(ls):
+	"""Verifica qué estudiante aprueba
+		input:
+			ls -> lista de notas
+		output:
+			ap -> aprobado"""
 	ap=0
 	if np.mean(ls) >= 7.0:
 		ap=1
 	return ap
 
 def n_apro(dic):
+	"""Número de estudiantes aprobados
+		input:
+			dic -> diccionario
+		output:
+			ls_ap -> número de estudiantes aprobados"""
 	ls_ap = []
 	for est in list(dic.values()):
 		ls_ap.append(aprueba(est))
