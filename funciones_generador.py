@@ -131,7 +131,7 @@ def histograma(dic,est): # Función para crear un histograma de un estudiante se
 	pyplot.axvline(m+s, linestyle="--", color="g")
 	pyplot.show()
 
-def prof_rango(dic,est,min,max):
+def prob_rango(dic,est,min,max):
 	"""Probabilidad de que una nota de un estudiante este en un rango dado por min y max
 		input:
 			dic -> Diccionario
@@ -149,3 +149,23 @@ def prof_rango(dic,est,min,max):
 	P=  round(cont/T,2)
 	return P  
 
+def grafica_notas(dic,est):
+	pyplot.plot(range(len(dic[est])),dic[est])
+	m = np.mean(dic[est])
+	s = np.std(dic[est])
+	pyplot.axhline(m, linestyle="--", color="r")
+	pyplot.axhline(m-s, linestyle="--", color="g")
+	pyplot.axhline(m+s, linestyle="--", color="g")
+	pyplot.show()
+
+def aprueba(ls):
+	ap=0
+	if np.mean(ls) >= 7.0:
+		ap=1
+	return ap
+
+def n_apro(dic):
+	ls_ap = []
+	for est in list(dic.values()):
+		ls_ap.append(aprueba(est))
+	return np.sum(ls_ap)
