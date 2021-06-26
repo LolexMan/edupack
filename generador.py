@@ -1,1 +1,3 @@
-#Codigo Generador
+# Edupack
+# Código generador
+# Autor: Steven Cisneros
