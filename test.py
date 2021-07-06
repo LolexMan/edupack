@@ -14,10 +14,10 @@ prob_nr_r = 0.2
 #Generamos los datos
 dic = generar_datos(total_datos, total_notas, prob_nr_b, porcentaje_buenos, prob_nr_m, porcentaje_malos, prob_nr_r)
 #Visualizacion datos
-hist_means(dic)
+#hist_means(dic)
 
 #Aqui vendra la prediccion
-
+print(precision(dic))
 
 #Aqui se comparara los resultados
 
