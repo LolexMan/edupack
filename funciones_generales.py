@@ -53,21 +53,22 @@ def est_malo(re,n):
 	return ls
 
 
-def est_reg(re,pm,pb):
+def est_reg(re,pnr):
 	"""Crea el perfil de un estudiante regular cuyas notas están el rago (6.0,8.0)
 		input:
 			re -> Tamaño de la lista
-			pm -> Propabilidad de nota mala de un rango (4.0,6.0)
-			pb -> Probabilidad de nota buena de un rango (8.0,9.5)
+			pnr -> Propabilidad de nota rara
 		output:
 			ls -> Lista de nota de un estudiante regular"""
 	ls= lista_aleatoria(re,6.0,8.0) # Creamos una lista aleatoria con un rango que oscila de 6.0 a 8.0
 	for i in range(re):
 		dado= rd.uniform(0,1) # Creamos un dado que nos da una probabilidad de 0 y 1
-		if dado < pm:
-			ls[i]= round(rd.uniform(4.0,6.0),2) # Modificamos la nota "i" de las notas con un rango entre 4.0 a 6.0
-		elif dado >= pm and dado < pm + pb:
-			ls[i]= round(rd.uniform(8.0,9.5),2) # Modificamos la nota "i" de las notas con un rango entre 8.0 a 9.5
+		if dado < pnr:
+			dado2 = rd.uniform(0,1)# Segundo dado para con 50% de probabilidad elegir una nota entre 3 - 6 o 8 -9.5
+			if dado2 <= 0.5:
+				ls[i]= round(rd.uniform(8.0,9.5),2) # Modificamos la nota "i" de las notas con un rango entre 8.0 a 9.5
+			else:
+				ls[i]= round(rd.uniform(3.0,6.0),2) # Modificamos la 
 	return ls
 
 def count_mala(ls):
@@ -94,31 +95,32 @@ def count_buena(ls):
 			cont += 1 
 	return cont 
 
-def generar_datos(N,notas,pf_b,db,pf_m,dm,pf_rb,pf_rm):
+def generar_datos(N,notas,pf_b,por_b,pf_m,por_m,pnr_r):
 	"""Generador de datos del estudiante desde su id que desplegará sus notas
 		input:
 			N -> Id del estudiante
 			notas -> registro de notas del estudiante
 			pf_b -> propabilidad de una nota rara de estudiante bueno
-			db -> densidad de estudiante bueno
+			por_b -> Porcentaje de estudiantes bueno
 			pf_m -> probabilidad de nota rara de estudiante malo
-			dm -> densidad de estudiante malo
-			pf_rb -> probabilidad de una nota buena estudiante regular
-			pf_rm -> propabilidad de una nota mala estudiante regular
+			por_m -> porcentaje de estudiante malos
+			pnr_r -> probabilidad de una nota rara en un estudiante regular
 			
 		output: 
 			dic -> Diccionario con los datos de un estudiante"""
 	
 	dic= {}
+	cont=0
 	for i in range(N):
 		dado= rd.uniform(0,1)
-		if dado < dm: # Condicional de si el estudiante que ingresa será malo
+		if dado < por_m: # Condicional de si el estudiante que ingresa será malo
 			dic[i]= est_malo(notas,pf_m)
-		elif dado >= dm and dado < dm + db: # Condicional de si el estudiante que ingresa será bueno
+		elif dado >= por_m and dado < por_m + por_b: # Condicional de si el estudiante que ingresa será bueno
 			dic[i]= est_bueno(notas,pf_b)
 		else:
-			dic[i]= est_reg(notas,pf_rm, pf_rb) # Condicional de si el estudiante que ingresa será regular
-
+			cont+=1
+			dic[i]= est_reg(notas,pnr_r) # Condicional de si el estudiante que ingresa será regular
+			
 	return dic
 
 
@@ -185,3 +187,25 @@ def n_apro(dic):
 	for est in list(dic.values()):
 		ls_ap.append(aprueba(est))
 	return np.sum(ls_ap)
+
+def hist_means(dic):
+	""" 
+		Funcion que obtiene un histograma de los promedios de todos los estudiantes
+	"""
+	ls_mean = [] #Lista vacia donde se almacenaran los promedios de cada clase
+	ls_notas = list(dic.values()) # Se obtiene las notas de los estudiantes
+	for notas in ls_notas:
+		mean = np.mean(notas) # Calculamos el promedio de la clase
+		ls_mean.append(mean) # Añadimos el promedio a la lista
+	pyplot.hist(ls_mean,bins= 15) #Creamos un histograma
+	m = np.mean(ls_mean) # Calculamos el promedio de los promedios
+	s = np.std(ls_mean) # Calculamos la desviacion estandar de los promedios
+	# Aqui graficamos
+	pyplot.title('Histograma Promedios')
+	pyplot.xlabel("Promedios")
+	pyplot.axvline(m, linestyle="--", color="r") 
+	pyplot.axvline(m-s, linestyle="--", color="g")
+	pyplot.axvline(m+s, linestyle="--", color="g")
+	pyplot.show()
+	
+	
