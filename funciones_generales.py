@@ -83,7 +83,7 @@ def est_reg(re,pnr):
 			else:
 				ls[i]= round(rd.uniform(3.0,6.0),2) 
 				# Modificamos la nota "i" de las notas con rango entre 3.0 a 6.0
- 	return ls
+	return ls
 
 def count_mala(ls):
 	"""Contador de cuántas notas malas tuvo en su registro rango de 0 a 6
@@ -197,9 +197,10 @@ def aprueba(ls):
 			ls -> lista de notas
 		output:
 			ap -> aprobado"""
-	ap=0
 	if np.mean(ls) >= 7.0:
 		ap=1
+	else:
+		ap=0
 	return ap
 
 def ls_apro(dic):
@@ -260,17 +261,22 @@ def pred_notas(notas, num_pred):
 	return nueva_lista
 
 def prediccion(dic, num_pred):
-	n = len(dic)
+	n = len(dic) 
+	# Obtenemos el tamaño del diccionario
 	ls = []
+	# Lista vacia, se llenara de 1 y 0 
 	for i in range(n):
+		# Obtenemos la prediccion de las notas
 		pred_aprob = aprueba(pred_notas(dic[i], num_pred))
+		# Determinamos si en la prediccion el est aprueba
 		ls.append(pred_aprob)
+		# Agregamos a la lista
 	return ls 
 	
 	
 def precision(dic):
 	real = ls_apro(dic)
-	pred = prediccion(dic, 4)
+	pred = prediccion(dic, 8)
 	acc = 0
 	for i in range(len(real)):
 		if real[i] == pred[i]:
