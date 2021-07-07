@@ -1,5 +1,4 @@
 #Codigo Generador
-
 from funciones_generales import *
 import time
 
@@ -8,18 +7,25 @@ total_datos = 100000
 total_notas = 20
 porcentaje_buenos = 0.2
 porcentaje_malos  = 0.2
-ls_ruido = [0.1, 0.2, 0.3, 0.4, 0.5]
+ls_ruido = [0.1,0.2, 0.3, 0.4, 0.5]
 
-tic = time.time()
-ls = []
+
+
 for ruido in ls_ruido:
-    acc = 0
-    for i in range(100):
         dic = generar_datos(total_datos, total_notas, ruido, porcentaje_buenos, ruido, porcentaje_malos, ruido)
-        acc += precision(dic)
-    ls.append( (ruido, acc/100) )
+        hist_means(dic,'hist_ruido_'+str(ruido)+'.png')
 
-print(ls)
+
+# tic = time.time()
+# ls = []
+# for ruido in ls_ruido:
+#         acc = 0
+#         for i in range(100):
+#             dic = generar_datos(total_datos, total_notas, ruido, porcentaje_buenos, ruido, porcentaje_malos, ruido)
+#             acc += precision(dic)
+#         ls.append(acc/100)
+# print( ls )
+
 
 #Aqui vendra la prediccion
 

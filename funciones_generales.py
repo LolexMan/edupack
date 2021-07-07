@@ -222,7 +222,7 @@ def n_apro(dic):
 			número de estudiantes aprobados"""
 	return np.sum(ls_apro(dic))
 
-def hist_means(dic):
+def hist_means(dic, name):
 	""" 
 		Funcion que obtiene un histograma de los promedios de todos los estudiantes
 	"""
@@ -248,7 +248,8 @@ def hist_means(dic):
 	pyplot.axvline(m, linestyle="--", color="r") 
 	pyplot.axvline(m-s, linestyle="--", color="g")
 	pyplot.axvline(m+s, linestyle="--", color="g")
-	pyplot.show()
+	pyplot.savefig(name)
+	pyplot.close()
 	
 def pred_notas(notas, num_pred):
 	filt = notas[0:len(notas)-num_pred]
